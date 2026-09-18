@@ -48,3 +48,27 @@ def test_login_user_invalid_password_raises_exception() -> None:
 
     assert exc_info.value.status_code == 401
     assert "Correo electrónico o contraseña incorrectos" in exc_info.value.detail
+
+def test_login_user_inactive_account_raises_exception() -> None:
+    # Arrange
+    fake_repo = FakeUserRepository()
+    register_uc = RegisterUserUseCase(user_repo=fake_repo)
+    login_uc = LoginUserUseCase(user_repo=fake_repo)
+
+    user = register_uc.execute(
+        email="inactive@example.com",
+        password_raw="mypassword123",
+    )
+    # Desactivar usuario
+    user.is_active = False
+    fake_repo.save(user)
+
+    # Act & Assert
+    with pytest.raises(HTTPException) as exc_info:
+        login_uc.execute(
+            email="inactive@example.com",
+            password_raw="mypassword123",
+        )
+
+    assert exc_info.value.status_code == 400
+    assert "Usuario inactivo" in exc_info.value.detail

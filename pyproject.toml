@@ -83,6 +83,7 @@ source = ["src/order_server"]
 omit = [
     "src/order_server/config/*",
     "src/order_server/main.py",
+    "src/order_server/infrastructure/models/*",
     "*/tests/*",
     "*/__init__.py",
 ]
@@ -94,4 +95,5 @@ exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
+    "@abstractmethod",
 ]
