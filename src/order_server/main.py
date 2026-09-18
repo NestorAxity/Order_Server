@@ -8,6 +8,9 @@ from order_server.infrastructure.controllers.auth_controller import (
 from order_server.infrastructure.controllers.health_controller import (
     router as health_router,
 )
+from order_server.infrastructure.controllers.orders_controller import (
+    router as order_router,
+)
 
 from .config.settings import settings
 
@@ -28,6 +31,7 @@ setup_cors(app)
 # Controllers
 app.include_router(health_router)
 app.include_router(auth_router, prefix=settings.API_V1_STR)
+app.include_router(order_router, prefix=settings.API_V1_STR)
 
 if __name__ == "__main__":
     import uvicorn

@@ -41,3 +41,16 @@ def create_access_token(
         algorithm=settings.ALGORITHM,
     )
     return str(encoded_jwt)
+
+
+def decode_access_token(token: str) -> dict[str, Any] | None:
+    """Decodifica y valida la firma/expiración de un token JWT."""
+    try:
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM],
+        )
+        return dict[str, Any](payload)
+    except jwt.PyJWTError:
+        return None

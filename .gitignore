@@ -53,3 +53,5 @@ wheels/
 .idea/
 *.swp
 *.swo
+
+*.db
