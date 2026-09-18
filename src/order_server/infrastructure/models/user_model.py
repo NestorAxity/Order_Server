@@ -1,10 +1,7 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from order_server.config.database import Base
-
 from order_server.infrastructure.models.order_model import OrderModel
 
 
