@@ -49,6 +49,7 @@ def test_login_user_invalid_password_raises_exception() -> None:
     assert exc_info.value.status_code == 401
     assert "Correo electrónico o contraseña incorrectos" in exc_info.value.detail
 
+
 def test_login_user_inactive_account_raises_exception() -> None:
     # Arrange
     fake_repo = FakeUserRepository()
