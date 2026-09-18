@@ -5,7 +5,6 @@ from order_server.domain.ports.user_repository import UserRepositoryPort
 
 
 class FakeUserRepository(UserRepositoryPort):
-
     def __init__(self) -> None:
         self.users: dict[str, User] = {}
         self._next_id = 1

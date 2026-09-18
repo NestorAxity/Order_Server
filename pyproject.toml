@@ -43,6 +43,7 @@ ignore = ["E501"]
 [tool.mypy]
 python_version = "3.13"
 strict = true
+exclude = ["^tests/"]
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -55,9 +56,6 @@ module = "fastapi.*"
 ignore_missing_imports = true
 disallow_untyped_decorators = false
 
-[[tool.mypy.overrides]]
-module = "*.tests.*"
-ignore_errors = true
 [[tool.mypy.overrides]]
 module = "requests.*"
 ignore_missing_imports = true

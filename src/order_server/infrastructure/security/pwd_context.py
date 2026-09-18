@@ -8,15 +8,15 @@ from pwdlib.hashers.bcrypt import BcryptHasher
 from order_server.config.settings import settings
 
 # Contexto de hashing de contraseñas configurado con bcrypt
-password_hash = PasswordHash((BcryptHasher(),))
+password_hash = PasswordHash((BcryptHasher()))
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bool, password_hash.verify(plain_password, hashed_password)
+    return bool(password_hash.verify(plain_password, hashed_password))
 
 
 def get_password_hash(password: str) -> str:
-    return str, password_hash.hash(password)
+    return str(password_hash.hash(password))
 
 
 def create_access_token(
@@ -40,4 +40,4 @@ def create_access_token(
         settings.SECRET_KEY,
         algorithm=settings.ALGORITHM,
     )
-    return str, encoded_jwt
+    return str(encoded_jwt)
