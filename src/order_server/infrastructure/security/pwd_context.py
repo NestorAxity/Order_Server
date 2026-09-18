@@ -8,7 +8,7 @@ from pwdlib.hashers.bcrypt import BcryptHasher
 from order_server.config.settings import settings
 
 # Contexto de hashing de contraseñas configurado con bcrypt
-password_hash = PasswordHash((BcryptHasher()))
+password_hash = PasswordHash((BcryptHasher(),))
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
