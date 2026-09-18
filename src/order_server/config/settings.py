@@ -1,4 +1,5 @@
 from functools import lru_cache
+import os
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,7 +11,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # Base de datos
-    DATABASE_URL: str = "sqlite:///./order_app_dev.db"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./order_app_dev.db")
 
     # Seguridad y token JWT
     SECRET_KEY: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
