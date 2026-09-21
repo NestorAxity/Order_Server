@@ -1,0 +1,19 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order_server_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////app/data/order_app_dev.db
+      - DEBUG=True
+    volumes:
+      # Mapea el volumen nombrado 'sqlite_data' al directorio con permisos del contenedor
+      - sqlite_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:
+    driver: local
