@@ -21,6 +21,13 @@ jobs:
         run: |
           pip install poetry==2.4.3
 
+      # 1. Configurar caché de dependencias de Poetry
+      - name: Setup Poetry cache
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "poetry"
+
       - name: Install dependencies
         run: |
           poetry install
@@ -41,17 +48,15 @@ jobs:
         run: |
           poetry run pytest
 
-      #- name: Build Package (Wheel)
-      #  run: |
-      #    poetry build
-
   docker-build:
     needs: quality-and-test
-    # Solo construye la imagen Docker cuando el código ya fue fusionado/empujado a una rama principal, no en PRs abiertos
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # 2. Configurar motor Buildx de Docker para mejorar la caché de capas
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Extract Environment Tag
         id: env-tag
@@ -62,6 +67,14 @@ jobs:
             echo "TAG=${{ github.ref_name }}" >> $GITHUB_ENV
           fi
 
+      # 3. Construye la imagen siempre (incluso en PRs para validar el Dockerfile),
+      # usando la caché de GitHub Actions para acelerar la construcción.
       - name: Build Docker Image
-        run: |
-          docker build -t order-app:${{ env.TAG }} .
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false  # Cambiar a true cuando configures un registry como Docker Hub o GHCR
+          tags: order-app:${{ env.TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

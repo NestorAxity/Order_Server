@@ -1,27 +1,14 @@
-# tests/integration/test_order_repository.py
-from collections.abc import Generator
 from datetime import datetime, timezone
 
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session
 
-from order_server.config.database import Base
 from order_server.domain.entities.order import Order as DomainOrder
 from order_server.domain.entities.order import OrderStatus
 from order_server.infrastructure.adapters.order_repository import (
     SQLAlchemyOrderRepository,
 )
 
-
-@pytest.fixture
-def db_session() -> Generator[Session, None, None]:
-    engine = create_engine("sqlite:///:memory:")
-    Base.metadata.create_all(engine)
-    SessionFactory = sessionmaker(bind=engine)
-    session = SessionFactory()
-    yield session
-    session.close()
+# No necesitas volver a definir @pytest.fixture def db_session()
 
 
 def test_sqlalchemy_order_repository_crud(db_session: Session) -> None:
